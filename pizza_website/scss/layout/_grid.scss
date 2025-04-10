@@ -3,7 +3,11 @@
  *
  * Flexbox-based responsive grid system with rows and columns.
  * Uses variables for columns and gutters.
+ * Updated to use sass:math for division and percentage calculations.
  */
+
+// Import the built-in sass:math module
+@use "sass:math";
 
 // --- Row Styles ---
 .row {
@@ -11,17 +15,15 @@
   flex-wrap: wrap; // Allow columns to wrap onto the next line
 
   // Apply negative margins to counteract column padding, creating the gutters between columns.
-  // Uses CSS variables for gutters.
   margin-top: calc(-1 * var(--qc-gutter-y)); // Vertical gutter compensation
   margin-right: calc(-.5 * var(--qc-gutter-x)); // Horizontal gutter compensation (right)
   margin-left: calc(-.5 * var(--qc-gutter-x)); // Horizontal gutter compensation (left)
 }
 
 
-// --- Column Base Styles ---
-// Common styles applied to all column types (.col, .col-*, .col-auto, etc.)
-// Using a placeholder selector (%) means these styles are only included when extended.
-%col-base {
+// --- Column Base Styles Mixin ---
+// Define common styles within a mixin to be included where needed.
+@mixin qc-col-base-styles {
   // Apply padding to create gutters. Padding is half the gutter width on each side.
   padding-right: calc(var(--qc-gutter-x) * .5);
   padding-left: calc(var(--qc-gutter-x) * .5);
@@ -38,13 +40,13 @@
 // --- Auto-Width Columns ---
 // `.col` takes up remaining space equally with other `.col` elements.
 .col {
-  @extend %col-base;
+  @include qc-col-base-styles; // Use include instead of extend
   flex: 1 0 0%; // Flex-grow: 1 (allow growing), Flex-shrink: 0 (don't shrink initially), Flex-basis: 0% (start from 0 width)
 }
 
 // `.col-auto` takes up only the space needed for its content.
 .col-auto {
-  @extend %col-base;
+  @include qc-col-base-styles; // Use include instead of extend
   flex: 0 0 auto; // Don't grow, don't shrink, use automatic width based on content.
   width: auto;
 }
@@ -54,9 +56,10 @@
 // Generate classes for specific column spans at the base (xs) breakpoint.
 @for $i from 1 through $grid-columns {
   .col-#{$i} {
-    @extend %col-base;
+    @include qc-col-base-styles; // Use include instead of extend
     flex: 0 0 auto; // Don't grow or shrink by default.
-    width: percentage($i / $grid-columns); // Calculate width percentage.
+    // Use math.div for division and math.percentage
+    width: math.percentage(math.div($i, $grid-columns));
   }
 }
 
@@ -68,13 +71,13 @@
     @media (min-width: #{$width}) {
       // Generate `.col-{bp}` class (auto-width for this breakpoint and up)
       .col-#{$breakpoint} {
-         @extend %col-base;
+         @include qc-col-base-styles; // Use include instead of extend
          flex: 1 0 0%; // Allow growing/shrinking from this breakpoint up.
       }
 
       // Generate `.col-{bp}-auto` class (content-width for this breakpoint and up)
       .col-#{$breakpoint}-auto {
-        @extend %col-base;
+        @include qc-col-base-styles; // Use include instead of extend
         flex: 0 0 auto;
         width: auto;
       }
@@ -82,9 +85,10 @@
       // Generate numbered columns for this breakpoint (`.col-{bp}-{size}`)
       @for $i from 1 through $grid-columns {
         .col-#{$breakpoint}-#{$i} {
-          @extend %col-base;
+          @include qc-col-base-styles; // Use include instead of extend
           flex: 0 0 auto; // Don't grow/shrink.
-          width: percentage($i / $grid-columns);
+          // Use math.div for division and math.percentage
+          width: math.percentage(math.div($i, $grid-columns));
         }
       }
 
@@ -93,7 +97,8 @@
       @for $i from 0 through ($grid-columns - 1) {
         @if $i > 0 { // No need for offset-0
             .offset-#{$breakpoint}-#{$i} {
-              margin-left: percentage($i / $grid-columns);
+              // Use math.div for division and math.percentage
+              margin-left: math.percentage(math.div($i, $grid-columns));
             }
         } @else { // Handle offset-0 explicitly if needed (usually just resets margin)
              .offset-#{$breakpoint}-0 {
@@ -109,7 +114,8 @@
 // Generate offset classes for the smallest (xs) breakpoint.
 @for $i from 1 through ($grid-columns - 1) {
   .offset-#{$i} {
-    margin-left: percentage($i / $grid-columns);
+     // Use math.div for division and math.percentage
+    margin-left: math.percentage(math.div($i, $grid-columns));
   }
 }
 // Handle offset-0 for xs breakpoint
