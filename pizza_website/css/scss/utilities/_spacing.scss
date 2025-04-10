@@ -1,0 +1,115 @@
+/**
+ * Utilities / Spacing
+ *
+ * Generates margin and padding utility classes for all sides, x/y axes, and individual sides.
+ * Uses values from a $spacers map and generates responsive versions.
+ */
+
+// Spacing map definition (can be customized or extended)
+// Uses CSS variables where possible for runtime flexibility.
+$spacers: (
+  0: 0,
+  1: var(--qc-spacer) * .25,
+  2: var(--qc-spacer) * .5,
+  3: var(--qc-spacer),       // Base spacer (1rem default)
+  4: var(--qc-spacer) * 1.5,
+  5: var(--qc-spacer) * 3,
+  auto: auto
+) !default;
+
+// Properties map (margin and padding)
+$properties: (
+  margin: m,
+  padding: p
+) !default;
+
+// Generate spacing utilities for each breakpoint
+@each $breakpoint, $width in $breakpoints {
+  // Create infix for breakpoint classes (e.g., "-md", "-lg"). Empty for base (xs).
+  $infix: if($breakpoint == xs, "", "-#{$breakpoint}");
+
+  // Media query wrapper for responsive utilities
+  @if $breakpoint == xs {
+    // No media query needed for base (xs) styles
+    @each $property, $abbrev in $properties {
+      @each $size, $length in $spacers {
+        // Generate utilities like .m-3, .p-1, .mt-0, .px-auto, etc.
+        .#{$abbrev}#{$infix}-#{$size} { #{$property}: $length !important; } // All sides
+        .#{$abbrev}t#{$infix}-#{$size} { #{$property}-top: $length !important; } // Top
+        .#{$abbrev}e#{$infix}-#{$size} { #{$property}-right: $length !important; } // End (right)
+        .#{$abbrev}b#{$infix}-#{$size} { #{$property}-bottom: $length !important; } // Bottom
+        .#{$abbrev}s#{$infix}-#{$size} { #{$property}-left: $length !important; } // Start (left)
+        .#{$abbrev}x#{$infix}-#{$size} { // Horizontal (left & right)
+          #{$property}-left: $length !important;
+          #{$property}-right: $length !important;
+        }
+        .#{$abbrev}y#{$infix}-#{$size} { // Vertical (top & bottom)
+          #{$property}-top: $length !important;
+          #{$property}-bottom: $length !important;
+        }
+      }
+    }
+    // Generate negative margin utilities for base (xs) breakpoint
+     @each $size, $length in $spacers {
+         @if $size != 0 and $size != auto { // Only for non-zero/auto numeric values
+             .m#{$infix}-n#{$size} { margin: calc(-1 * #{$length}) !important; }
+             .mt#{$infix}-n#{$size} { margin-top: calc(-1 * #{$length}) !important; }
+             .me#{$infix}-n#{$size} { margin-right: calc(-1 * #{$length}) !important; }
+             .mb#{$infix}-n#{$size} { margin-bottom: calc(-1 * #{$length}) !important; }
+             .ms#{$infix}-n#{$size} { margin-left: calc(-1 * #{$length}) !important; }
+             .mx#{$infix}-n#{$size} {
+                 margin-left: calc(-1 * #{$length}) !important;
+                 margin-right: calc(-1 * #{$length}) !important;
+             }
+             .my#{$infix}-n#{$size} {
+                 margin-top: calc(-1 * #{$length}) !important;
+                 margin-bottom: calc(-1 * #{$length}) !important;
+             }
+         }
+     }
+
+  } @else {
+    // Apply styles within media query for sm and larger breakpoints
+    @media (min-width: #{$width}) {
+      @each $property, $abbrev in $properties {
+        @each $size, $length in $spacers {
+          // Generate utilities like .m-md-3, .p-lg-1, .mt-sm-0, .px-xl-auto, etc.
+          .#{$abbrev}#{$infix}-#{$size} { #{$property}: $length !important; } // All sides
+          .#{$abbrev}t#{$infix}-#{$size} { #{$property}-top: $length !important; } // Top
+          .#{$abbrev}e#{$infix}-#{$size} { #{$property}-right: $length !important; } // End (right)
+          .#{$abbrev}b#{$infix}-#{$size} { #{$property}-bottom: $length !important; } // Bottom
+          .#{$abbrev}s#{$infix}-#{$size} { #{$property}-left: $length !important; } // Start (left)
+          .#{$abbrev}x#{$infix}-#{$size} { // Horizontal (left & right)
+            #{$property}-left: $length !important;
+            #{$property}-right: $length !important;
+          }
+          .#{$abbrev}y#{$infix}-#{$size} { // Vertical (top & bottom)
+            #{$property}-top: $length !important;
+            #{$property}-bottom: $length !important;
+          }
+        }
+      }
+       // Generate negative margin utilities for this breakpoint
+       @each $size, $length in $spacers {
+           @if $size != 0 and $size != auto {
+               .m#{$infix}-n#{$size} { margin: calc(-1 * #{$length}) !important; }
+               .mt#{$infix}-n#{$size} { margin-top: calc(-1 * #{$length}) !important; }
+               .me#{$infix}-n#{$size} { margin-right: calc(-1 * #{$length}) !important; }
+               .mb#{$infix}-n#{$size} { margin-bottom: calc(-1 * #{$length}) !important; }
+               .ms#{$infix}-n#{$size} { margin-left: calc(-1 * #{$length}) !important; }
+               .mx#{$infix}-n#{$size} {
+                   margin-left: calc(-1 * #{$length}) !important;
+                   margin-right: calc(-1 * #{$length}) !important;
+               }
+               .my#{$infix}-n#{$size} {
+                   margin-top: calc(-1 * #{$length}) !important;
+                   margin-bottom: calc(-1 * #{$length}) !important;
+               }
+           }
+       }
+    }
+  }
+}
+
+// Note: Using !important is common for utility classes as they are intended
+// to override component styles or other base styles directly.
