@@ -1,85 +1,151 @@
 /**
- * Custom CSS Styles for JavaScript Functionality
+ * Custom CSS Styles
+ * Includes Redesigned Header Styles
  */
 
-/* --- Mobile Navigation --- */
+/* --- General Variables (Optional - if not using Quantum's) --- */
+:root {
+    --header-height: 60px; /* Example height */
+    --link-hover-color: var(--qc-primary); /* Use Quantum's primary color */
+}
 
-/* Style for the main navigation menu container */
+/* --- Sticky Top Utility (if Quantum CSS doesn't have it) --- */
+.sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 1020; /* Ensure it's above most other content */
+}
+
+/* --- Site Header Styling --- */
+.site-header {
+    /* background-color: var(--qc-light); */ /* Set via utility class */
+    border-bottom: 1px solid var(--qc-border-color); /* Subtle line below header */
+    /* transition for potential future effects like background change on scroll */
+    transition: background-color 0.3s ease;
+}
+
+.site-header .site-logo {
+    /* Style the logo text */
+    font-size: 1.25rem; /* Adjust as needed */
+    /* color: var(--qc-dark); */ /* Set via utility class */
+}
+
+/* --- Navigation Link Styling --- */
+.main-nav-menu .nav-link {
+    /* color: var(--qc-secondary); */ /* Set via utility class */
+    position: relative; /* Needed for the underline pseudo-element */
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    transition: color 0.2s ease-in-out; /* Smooth color transition on hover */
+}
+
+/* Underline animation on hover/active */
+.main-nav-menu .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0); /* Initially hidden */
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--link-hover-color); /* Use hover color for underline */
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out; /* Animation */
+}
+
+.main-nav-menu .nav-link:hover,
+.main-nav-menu .nav-link.active { /* Style both hover and active states */
+    color: var(--link-hover-color) !important; /* Use primary color on hover/active, !important to override utility */
+    font-weight: normal; /* Override bold from previous version if needed */
+}
+
+.main-nav-menu .nav-link:hover::after,
+.main-nav-menu .nav-link.active::after {
+    transform: scaleX(1); /* Show underline */
+    transform-origin: bottom left;
+}
+
+
+/* --- Mobile Navigation Refinements --- */
 .main-nav-menu {
-    /* On small screens, position it for overlay or dropdown */
+    /* On small screens, refine the look */
     @media (max-width: 767.98px) { /* Below md breakpoint */
         display: none; /* Initially hidden */
-        flex-direction: column; /* Stack links vertically */
+        flex-direction: column;
         width: 100%;
-        position: absolute; /* Position relative to header */
+        position: absolute;
         top: 100%; /* Position below the header */
         left: 0;
-        background-color: var(--qc-dark); /* Match header background */
-        padding: 1rem;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        z-index: 1000; /* Ensure it's above other content */
+        background-color: var(--qc-light); /* Match new header background */
+        border-top: 1px solid var(--qc-border-color);
+        border-bottom: 1px solid var(--qc-border-color);
+        padding: 0.5rem 0; /* Adjust padding */
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        z-index: 1000;
+
+        /* Add a subtle slide-down animation */
+        transform: translateY(-10px);
+        opacity: 0;
+        transition: transform 0.3s ease-out, opacity 0.2s ease-out;
+        pointer-events: none; /* Prevent interaction when hidden */
     }
 }
 
-/* Style for when the mobile menu is active/visible */
+/* Active state for mobile menu */
 .main-nav-menu.is-active {
-    display: flex !important; /* Override d-none */
+    display: flex !important;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto; /* Allow interaction when visible */
 }
 
-/* Adjust nav item spacing for mobile */
+/* Mobile nav item styling */
 .main-nav-menu .nav-item {
     @media (max-width: 767.98px) {
-        margin-left: 0 !important; /* Remove horizontal spacing */
-        margin-bottom: 0.5rem; /* Add vertical spacing */
+        margin-left: 0 !important;
         width: 100%;
-        text-align: center;
     }
 }
-.main-nav-menu .nav-item:last-child {
+
+/* Mobile nav link styling */
+.main-nav-menu .nav-link {
      @media (max-width: 767.98px) {
-        margin-bottom: 0;
+        display: block; /* Make links take full width */
+        padding: 0.75rem 1rem; /* Adjust padding */
+        text-align: center;
+        border-bottom: 1px solid var(--qc-gray-200); /* Separator lines */
+     }
+}
+.main-nav-menu .nav-item:last-child .nav-link {
+     @media (max-width: 767.98px) {
+        border-bottom: none; /* No border on the last item */
      }
 }
 
-/* Hide mobile toggle button on medium screens and up */
-/* This is also handled by Quantum's .d-md-none, but explicit style can be good */
-@media (min-width: 768px) {
-    #mobile-menu-button {
+/* Mobile nav link hover/active */
+.main-nav-menu .nav-link:hover,
+.main-nav-menu .nav-link.active {
+     @media (max-width: 767.98px) {
+        background-color: var(--qc-gray-100); /* Subtle background on hover/active */
+        color: var(--link-hover-color) !important;
+     }
+}
+/* Remove underline animation on mobile */
+.main-nav-menu .nav-link::after {
+     @media (max-width: 767.98px) {
         display: none;
-    }
-    /* Ensure menu is displayed flex on larger screens */
-     .main-nav-menu {
-        display: flex !important;
-        position: static;
-        width: auto;
-        background-color: transparent;
-        box-shadow: none;
-        padding: 0;
-        flex-direction: row;
-    }
-    .main-nav-menu .nav-item {
-        margin-bottom: 0;
-    }
+     }
 }
 
-
-/* --- Active Navigation Link --- */
-.nav-item .nav-link.active {
-    font-weight: bold; /* Make active link bold */
-    color: var(--qc-warning) !important; /* Use a distinct color (e.g., brand accent) */
-    /* Add other styles like underline or background if desired */
-    /* text-decoration: underline; */
-}
 
 /* --- Form Validation Error Messages --- */
 .js-error-message {
     /* Styles for error messages displayed by JavaScript */
     /* Defaults set in HTML (text-danger small mt-1) */
-    /* Add more styles if needed */
 }
 
 /* Optional: Style invalid fields */
 .form-control.is-invalid {
     border-color: var(--qc-danger);
-    /* Add background image or other indicators if desired */
 }
+
