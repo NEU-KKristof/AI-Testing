@@ -1,0 +1,152 @@
+/**
+ * Base / Typography
+ *
+ * Base styles for text elements like headings, paragraphs, lists, etc.
+ * Uses CSS variables for font sizes where appropriate.
+ */
+
+// Headings - Using fluid typography approach (adjusts with viewport width)
+// Define base heading font sizes (can be overridden with CSS vars if needed)
+$h1-font-size: var(--qc-font-size-base) * 2.5 !default;   // Approx 40px
+$h2-font-size: var(--qc-font-size-base) * 2 !default;     // Approx 32px
+$h3-font-size: var(--qc-font-size-base) * 1.75 !default;  // Approx 28px
+$h4-font-size: var(--qc-font-size-base) * 1.5 !default;    // Approx 24px
+$h5-font-size: var(--qc-font-size-base) * 1.25 !default;  // Approx 20px
+$h6-font-size: var(--qc-font-size-base) !default;        // Approx 16px
+
+// Map headings to their sizes
+$headings-font-sizes: (
+  1: $h1-font-size,
+  2: $h2-font-size,
+  3: $h3-font-size,
+  4: $h4-font-size,
+  5: $h5-font-size,
+  6: $h6-font-size
+) !default;
+
+// Heading margins (provide some default spacing)
+$headings-margin-bottom: var(--qc-spacer) * 0.5 !default;
+$headings-font-weight: 500 !default; // Slightly bolder than base
+$headings-line-height: 1.2 !default;
+$headings-color: inherit !default; // Inherit color by default
+
+// Loop through heading levels
+@each $level, $font-size in $headings-font-sizes {
+  h#{$level} {
+    margin-top: 0; // Reset margin-top from reset file if needed
+    margin-bottom: $headings-margin-bottom;
+    font-weight: $headings-font-weight;
+    line-height: $headings-line-height;
+    color: $headings-color;
+    font-size: $font-size;
+  }
+}
+
+// Paragraphs
+p {
+  margin-top: 0;
+  margin-bottom: var(--qc-spacer); // Default bottom margin for paragraphs
+}
+
+// Lists (Unordered and Ordered)
+ul,
+ol {
+  padding-left: 2rem; // Indentation for list items
+  margin-top: 0;
+  margin-bottom: var(--qc-spacer);
+
+  ul,
+  ol {
+    margin-bottom: 0; // No extra margin for nested lists
+  }
+}
+
+li {
+   margin-bottom: var(--qc-spacer) * 0.25; // Small space between list items
+}
+
+
+// Blockquotes
+blockquote {
+  margin: 0 0 var(--qc-spacer);
+  padding: (var(--qc-spacer) * 0.5) var(--qc-spacer);
+  font-size: var(--qc-font-size-base) * 1.125; // Slightly larger text
+  color: var(--qc-gray-700);
+  border-left: 0.25rem solid var(--qc-gray-300);
+
+  p:last-child {
+    margin-bottom: 0; // No margin on the last paragraph inside
+  }
+}
+
+// Code blocks and inline code
+pre,
+code,
+kbd,
+samp {
+  font-family: var(--qc-font-family-monospace);
+  font-size: 0.875em; // Slightly smaller than base font
+}
+
+pre {
+  display: block;
+  margin-top: 0;
+  margin-bottom: var(--qc-spacer);
+  overflow: auto; // Add scrollbars if code overflows
+  color: var(--qc-gray-900); // Adjust color as needed
+  background-color: var(--qc-gray-100); // Light background for code blocks
+  padding: var(--qc-spacer);
+  border-radius: var(--qc-border-radius-sm);
+
+  code {
+    font-size: inherit;
+    color: inherit;
+    word-break: normal; // Prevent breaking within code block if possible
+    background-color: transparent; // No extra background for code inside pre
+    border-radius: 0;
+    padding: 0;
+  }
+}
+
+code {
+  color: var(--qc-pink); // Use a distinct color for inline code
+  word-wrap: break-word;
+  background-color: var(--qc-gray-100); // Subtle background for inline code
+  padding: 0.125rem 0.25rem;
+  border-radius: var(--qc-border-radius-sm);
+}
+
+// Definition Lists
+dl {
+  margin-bottom: var(--qc-spacer);
+}
+dt {
+  font-weight: 700; // Bold term
+}
+dd {
+  margin-bottom: .5rem;
+  margin-left: 0; // Reset browser default
+}
+
+// --- Display Heading Classes (like .h1, .h2) ---
+// Allows using heading styles on other elements
+@each $level, $font-size in $headings-font-sizes {
+  .h#{$level} {
+    font-size: $font-size;
+    font-weight: $headings-font-weight;
+    line-height: $headings-line-height;
+  }
+}
+
+// --- Lead Paragraph Style ---
+.lead {
+  font-size: var(--qc-font-size-base) * 1.25;
+  font-weight: 300; // Lighter weight for lead text
+}
+
+// --- Text Muted Style ---
+.text-muted {
+  color: var(--qc-gray-600) !important; // Use utility color
+  opacity: 1; // Reset opacity if needed
+}
+
