@@ -1,0 +1,85 @@
+/**
+ * Custom CSS Styles for JavaScript Functionality
+ */
+
+/* --- Mobile Navigation --- */
+
+/* Style for the main navigation menu container */
+.main-nav-menu {
+    /* On small screens, position it for overlay or dropdown */
+    @media (max-width: 767.98px) { /* Below md breakpoint */
+        display: none; /* Initially hidden */
+        flex-direction: column; /* Stack links vertically */
+        width: 100%;
+        position: absolute; /* Position relative to header */
+        top: 100%; /* Position below the header */
+        left: 0;
+        background-color: var(--qc-dark); /* Match header background */
+        padding: 1rem;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        z-index: 1000; /* Ensure it's above other content */
+    }
+}
+
+/* Style for when the mobile menu is active/visible */
+.main-nav-menu.is-active {
+    display: flex !important; /* Override d-none */
+}
+
+/* Adjust nav item spacing for mobile */
+.main-nav-menu .nav-item {
+    @media (max-width: 767.98px) {
+        margin-left: 0 !important; /* Remove horizontal spacing */
+        margin-bottom: 0.5rem; /* Add vertical spacing */
+        width: 100%;
+        text-align: center;
+    }
+}
+.main-nav-menu .nav-item:last-child {
+     @media (max-width: 767.98px) {
+        margin-bottom: 0;
+     }
+}
+
+/* Hide mobile toggle button on medium screens and up */
+/* This is also handled by Quantum's .d-md-none, but explicit style can be good */
+@media (min-width: 768px) {
+    #mobile-menu-button {
+        display: none;
+    }
+    /* Ensure menu is displayed flex on larger screens */
+     .main-nav-menu {
+        display: flex !important;
+        position: static;
+        width: auto;
+        background-color: transparent;
+        box-shadow: none;
+        padding: 0;
+        flex-direction: row;
+    }
+    .main-nav-menu .nav-item {
+        margin-bottom: 0;
+    }
+}
+
+
+/* --- Active Navigation Link --- */
+.nav-item .nav-link.active {
+    font-weight: bold; /* Make active link bold */
+    color: var(--qc-warning) !important; /* Use a distinct color (e.g., brand accent) */
+    /* Add other styles like underline or background if desired */
+    /* text-decoration: underline; */
+}
+
+/* --- Form Validation Error Messages --- */
+.js-error-message {
+    /* Styles for error messages displayed by JavaScript */
+    /* Defaults set in HTML (text-danger small mt-1) */
+    /* Add more styles if needed */
+}
+
+/* Optional: Style invalid fields */
+.form-control.is-invalid {
+    border-color: var(--qc-danger);
+    /* Add background image or other indicators if desired */
+}
