@@ -1,0 +1,123 @@
+/**
+ * Abstracts / Variables
+ *
+ * Contains all SCSS variables and CSS Custom Properties (variables).
+ * This file does not output any CSS on its own.
+ */
+
+// =============================================================================
+// SCSS Variables (mostly for logic, loops, map keys)
+// =============================================================================
+$breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+) !default; // Use !default to allow user overrides
+
+$grid-columns: 12 !default;
+$grid-gutter-width: 1.5rem !default; // Gutter width (applied as padding on columns)
+
+$spacing-unit: 1rem !default; // Base unit for spacing utilities
+
+// =============================================================================
+// CSS Custom Properties (for easy theming and runtime changes)
+// Define these within :root for global scope.
+// =============================================================================
+:root {
+  // --- Colors ---
+  // Grayscale
+  --qc-white: #fff;
+  --qc-gray-100: #f8f9fa;
+  --qc-gray-200: #e9ecef;
+  --qc-gray-300: #dee2e6;
+  --qc-gray-400: #ced4da;
+  --qc-gray-500: #adb5bd;
+  --qc-gray-600: #6c757d;
+  --qc-gray-700: #495057;
+  --qc-gray-800: #343a40;
+  --qc-gray-900: #212529;
+  --qc-black: #000;
+
+  // Brand/Semantic Colors
+  --qc-blue: #0d6efd;
+  --qc-indigo: #6610f2;
+  --qc-purple: #6f42c1;
+  --qc-pink: #d63384;
+  --qc-red: #dc3545;
+  --qc-orange: #fd7e14;
+  --qc-yellow: #ffc107;
+  --qc-green: #198754;
+  --qc-teal: #20c997;
+  --qc-cyan: #0dcaf0;
+
+  // Theme Colors Mapping (can be overridden)
+  --qc-primary: var(--qc-blue);
+  --qc-secondary: var(--qc-gray-600);
+  --qc-success: var(--qc-green);
+  --qc-info: var(--qc-cyan);
+  --qc-warning: var(--qc-yellow);
+  --qc-danger: var(--qc-red);
+  --qc-light: var(--qc-gray-100);
+  --qc-dark: var(--qc-gray-800);
+
+  // Example RGB versions for alpha transparency (needed for box-shadows, etc.)
+  // These should correspond to the hex values above. Generate dynamically if possible, or list manually.
+  --qc-primary-rgb: 13, 110, 253;
+  --qc-secondary-rgb: 108, 117, 125;
+  --qc-success-rgb: 25, 135, 84;
+  --qc-info-rgb: 13, 202, 240;
+  --qc-warning-rgb: 255, 193, 7;
+  --qc-danger-rgb: 220, 53, 69;
+  --qc-light-rgb: 248, 249, 250;
+  --qc-dark-rgb: 33, 37, 41;
+
+
+  // --- Body & Font ---
+  --qc-body-bg: var(--qc-white);
+  --qc-body-color: var(--qc-gray-900);
+  --qc-font-family-base: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --qc-font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --qc-font-size-base: #{$spacing-unit}; // Base font size (1rem default)
+  --qc-font-weight-base: 400;
+  --qc-line-height-base: 1.5;
+
+  // --- Links ---
+  --qc-link-color: var(--qc-primary);
+  --qc-link-decoration: underline;
+  --qc-link-hover-color: color-mix(in srgb, var(--qc-link-color) 80%, black); // Darken link color on hover
+  --qc-link-hover-decoration: underline; // Ensure underline on hover
+
+  // --- Borders ---
+  --qc-border-width: 1px;
+  --qc-border-style: solid;
+  --qc-border-color: var(--qc-gray-300);
+  --qc-border-color-translucent: rgba(var(--qc-black), 0.175); // Example translucent border
+  --qc-border-radius: 0.375rem;
+  --qc-border-radius-sm: 0.25rem;
+  --qc-border-radius-lg: 0.5rem;
+  --qc-border-radius-pill: 50rem; // For pill shapes
+
+  // --- Spacing ---
+  // Base spacer unit, used by spacing utilities and components.
+  --qc-spacer: #{$spacing-unit};
+
+  // --- Grid ---
+  // Gutters are applied as padding to columns.
+  --qc-gutter-x: #{$grid-gutter-width};
+  --qc-gutter-y: #{$grid-gutter-width}; // Default vertical gutter same as horizontal
+
+  // --- Transitions ---
+  --qc-transition-base: all .2s ease-in-out;
+  --qc-transition-fade: opacity .15s linear;
+  // Add more specific transitions as needed (e.g., color, transform)
+
+  // --- Box Shadows ---
+  --qc-box-shadow: 0 .5rem 1rem rgba(var(--qc-black), .15);
+  --qc-box-shadow-sm: 0 .125rem .25rem rgba(var(--qc-black), .075);
+  --qc-box-shadow-lg: 0 1rem 3rem rgba(var(--qc-black), .175);
+  --qc-box-shadow-inset: inset 0 1px 2px rgba(var(--qc-black), .075);
+
+}
