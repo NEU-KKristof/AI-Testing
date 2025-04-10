@@ -1,0 +1,123 @@
+/**
+ * Layout / Grid System
+ *
+ * Flexbox-based responsive grid system with rows and columns.
+ * Uses variables for columns and gutters.
+ */
+
+// --- Row Styles ---
+.row {
+  display: flex;
+  flex-wrap: wrap; // Allow columns to wrap onto the next line
+
+  // Apply negative margins to counteract column padding, creating the gutters between columns.
+  // Uses CSS variables for gutters.
+  margin-top: calc(-1 * var(--qc-gutter-y)); // Vertical gutter compensation
+  margin-right: calc(-.5 * var(--qc-gutter-x)); // Horizontal gutter compensation (right)
+  margin-left: calc(-.5 * var(--qc-gutter-x)); // Horizontal gutter compensation (left)
+}
+
+
+// --- Column Base Styles ---
+// Common styles applied to all column types (.col, .col-*, .col-auto, etc.)
+// Using a placeholder selector (%) means these styles are only included when extended.
+%col-base {
+  // Apply padding to create gutters. Padding is half the gutter width on each side.
+  padding-right: calc(var(--qc-gutter-x) * .5);
+  padding-left: calc(var(--qc-gutter-x) * .5);
+
+  // Apply vertical gutter spacing using margin-top.
+  margin-top: var(--qc-gutter-y);
+
+  // Default behavior: columns take full width on smallest screens (mobile-first).
+  // Specific widths are applied via .col-* classes or flex properties.
+  width: 100%;
+}
+
+
+// --- Auto-Width Columns ---
+// `.col` takes up remaining space equally with other `.col` elements.
+.col {
+  @extend %col-base;
+  flex: 1 0 0%; // Flex-grow: 1 (allow growing), Flex-shrink: 0 (don't shrink initially), Flex-basis: 0% (start from 0 width)
+}
+
+// `.col-auto` takes up only the space needed for its content.
+.col-auto {
+  @extend %col-base;
+  flex: 0 0 auto; // Don't grow, don't shrink, use automatic width based on content.
+  width: auto;
+}
+
+
+// --- Numbered Columns (.col-1 to .col-12) ---
+// Generate classes for specific column spans at the base (xs) breakpoint.
+@for $i from 1 through $grid-columns {
+  .col-#{$i} {
+    @extend %col-base;
+    flex: 0 0 auto; // Don't grow or shrink by default.
+    width: percentage($i / $grid-columns); // Calculate width percentage.
+  }
+}
+
+// --- Responsive Columns (.col-sm-*, .col-md-*, etc.) ---
+// Generate breakpoint-specific column classes.
+@each $breakpoint, $width in $breakpoints {
+  // Skip the 'xs' breakpoint as those are the base classes generated above.
+  @if $breakpoint != xs {
+    @media (min-width: #{$width}) {
+      // Generate `.col-{bp}` class (auto-width for this breakpoint and up)
+      .col-#{$breakpoint} {
+         @extend %col-base;
+         flex: 1 0 0%; // Allow growing/shrinking from this breakpoint up.
+      }
+
+      // Generate `.col-{bp}-auto` class (content-width for this breakpoint and up)
+      .col-#{$breakpoint}-auto {
+        @extend %col-base;
+        flex: 0 0 auto;
+        width: auto;
+      }
+
+      // Generate numbered columns for this breakpoint (`.col-{bp}-{size}`)
+      @for $i from 1 through $grid-columns {
+        .col-#{$breakpoint}-#{$i} {
+          @extend %col-base;
+          flex: 0 0 auto; // Don't grow/shrink.
+          width: percentage($i / $grid-columns);
+        }
+      }
+
+      // --- Offset Classes (.offset-*, .offset-{bp}-*) ---
+      // Generate offset classes to push columns to the right.
+      @for $i from 0 through ($grid-columns - 1) {
+        @if $i > 0 { // No need for offset-0
+            .offset-#{$breakpoint}-#{$i} {
+              margin-left: percentage($i / $grid-columns);
+            }
+        } @else { // Handle offset-0 explicitly if needed (usually just resets margin)
+             .offset-#{$breakpoint}-0 {
+                 margin-left: 0;
+             }
+        }
+      }
+    }
+  }
+}
+
+// --- Base Offset Classes (.offset-1 to .offset-11) ---
+// Generate offset classes for the smallest (xs) breakpoint.
+@for $i from 1 through ($grid-columns - 1) {
+  .offset-#{$i} {
+    margin-left: percentage($i / $grid-columns);
+  }
+}
+// Handle offset-0 for xs breakpoint
+.offset-0 {
+    margin-left: 0;
+}
+
+// --- Row Columns Classes (Optional - for setting number of columns per row) ---
+// Example: .row-cols-2 > * { flex: 0 0 auto; width: 50%; }
+// Can be generated similarly with loops and breakpoints if needed.
+
