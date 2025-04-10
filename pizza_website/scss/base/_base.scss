@@ -1,0 +1,61 @@
+/**
+ * Base / Base Styles
+ *
+ * Core styles applied to the html and body elements.
+ * Sets global defaults for font, background, color, etc.
+ */
+
+html {
+  // Set base font-size here for better rem unit scaling and accessibility
+  font-size: var(--qc-font-size-base);
+}
+
+body {
+  // Use CSS variables defined in _variables.scss for easy theming
+  font-family: var(--qc-font-family-base);
+  font-size: var(--qc-font-size-base); // Explicitly set on body too
+  font-weight: var(--qc-font-weight-base);
+  line-height: var(--qc-line-height-base);
+  color: var(--qc-body-color);
+  background-color: var(--qc-body-bg);
+
+  // Improve font rendering
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  // Ensure body takes at least the full height of the viewport
+  min-height: 100vh;
+
+  // Basic text selection styling (optional)
+  ::selection {
+    background-color: var(--qc-primary);
+    color: var(--qc-white); // Assuming primary is dark enough for white text
+  }
+}
+
+// Default link styling
+a {
+  color: var(--qc-link-color);
+  text-decoration: var(--qc-link-decoration);
+  background-color: transparent; // Remove the gray background on active links in IE 10.
+
+  &:hover {
+    color: var(--qc-link-hover-color);
+    text-decoration: var(--qc-link-hover-decoration);
+  }
+}
+
+// Remove outline on focused links if :focus-visible is supported and used
+a:focus:not(:focus-visible) {
+  outline: 0;
+}
+
+
+// Basic horizontal rule styling
+hr {
+  margin: var(--qc-spacer) 0;
+  color: inherit; // Inherit color for border
+  border: 0;
+  border-top: var(--qc-border-width) var(--qc-border-style) var(--qc-border-color);
+  opacity: 0.25;
+}
