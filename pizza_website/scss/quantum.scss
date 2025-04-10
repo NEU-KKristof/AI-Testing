@@ -1,0 +1,43 @@
+// =============================================================================
+// Quantum CSS -- Main Entry Point (Revised Structure)
+// =============================================================================
+// Imports partials in a specific order to ensure correct cascade.
+// Follows an ITCSS-like layering approach:
+// Abstracts -> Base -> Layout -> Components -> Utilities
+
+// 1. Abstracts (Settings & Tools)
+// Non-outputting: Variables, functions, mixins used by other layers.
+@import 'abstracts/variables';
+// @import 'abstracts/functions'; // Import if you create this file
+// @import 'abstracts/mixins';    // Import if you create this file
+
+// 2. Base (Generic & Elements)
+// Reset/normalize, base HTML element styling (typography, body, links).
+@import 'base/reset';
+@import 'base/base';       // Includes global box-sizing, body defaults
+@import 'base/typography';
+
+// 3. Layout (Objects/Layout Structure)
+// Page structure, grid system, containers.
+@import 'layout/containers';
+@import 'layout/grid';
+// @import 'layout/forms-layout'; // Import if you create this file
+
+// 4. Components (UI Components)
+// Styled UI patterns (buttons, cards, forms elements, etc.).
+@import 'components/buttons';
+@import 'components/forms';    // Input, select, textarea styling
+// @import 'components/card';     // Import if added
+// @import 'components/navbar';   // Import if added
+// @import 'components/alert';    // Import if added
+// ... import other components
+
+// 5. Utilities (Trumps/Overrides)
+// High-specificity helper classes to override previous styles.
+@import 'utilities/spacing';
+@import 'utilities/display';
+// @import 'utilities/colors';      // Import if added
+// @import 'utilities/borders';     // Import if added
+// @import 'utilities/flex';        // Import if added
+// ... import other utilities
+
