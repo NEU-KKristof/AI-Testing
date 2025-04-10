@@ -7,12 +7,13 @@
 
 // Headings - Using fluid typography approach (adjusts with viewport width)
 // Define base heading font sizes (can be overridden with CSS vars if needed)
-$h1-font-size: var(--qc-font-size-base) * 2.5 !default;   // Approx 40px
-$h2-font-size: var(--qc-font-size-base) * 2 !default;     // Approx 32px
-$h3-font-size: var(--qc-font-size-base) * 1.75 !default;  // Approx 28px
-$h4-font-size: var(--qc-font-size-base) * 1.5 !default;    // Approx 24px
-$h5-font-size: var(--qc-font-size-base) * 1.25 !default;  // Approx 20px
-$h6-font-size: var(--qc-font-size-base) !default;        // Approx 16px
+// Use the SCSS variable $spacing-unit (which is usually 1rem) for calculations
+$h1-font-size: $spacing-unit * 2.5 !default;
+$h2-font-size: $spacing-unit * 2 !default;
+$h3-font-size: $spacing-unit * 1.75 !default;
+$h4-font-size: $spacing-unit * 1.5 !default;
+$h5-font-size: $spacing-unit * 1.25 !default;
+$h6-font-size: $spacing-unit !default;
 
 // Map headings to their sizes
 $headings-font-sizes: (
@@ -25,7 +26,7 @@ $headings-font-sizes: (
 ) !default;
 
 // Heading margins (provide some default spacing)
-$headings-margin-bottom: var(--qc-spacer) * 0.5 !default;
+$headings-margin-bottom: $spacing-unit * 0.5 !default;
 $headings-font-weight: 500 !default; // Slightly bolder than base
 $headings-line-height: 1.2 !default;
 $headings-color: inherit !default; // Inherit color by default
@@ -62,15 +63,16 @@ ol {
 }
 
 li {
-   margin-bottom: var(--qc-spacer) * 0.25; // Small space between list items
+  margin-bottom: $spacing-unit * 0.25; // Small space between list items
 }
-
 
 // Blockquotes
 blockquote {
   margin: 0 0 var(--qc-spacer);
-  padding: (var(--qc-spacer) * 0.5) var(--qc-spacer);
-  font-size: var(--qc-font-size-base) * 1.125; // Slightly larger text
+  // Use SCSS variable for calculation, CSS variable for direct value
+  padding: ($spacing-unit * 0.5) var(--qc-spacer);
+  // Use SCSS variable for calculation
+  font-size: $spacing-unit * 1.125;
   color: var(--qc-gray-700);
   border-left: 0.25rem solid var(--qc-gray-300);
 
@@ -140,7 +142,7 @@ dd {
 
 // --- Lead Paragraph Style ---
 .lead {
-  font-size: var(--qc-font-size-base) * 1.25;
+  font-size: $spacing-unit * 1.25; // Use SCSS variable for calculation
   font-weight: 300; // Lighter weight for lead text
 }
 
